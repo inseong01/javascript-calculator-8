@@ -2,8 +2,7 @@ import { Console } from "@woowacourse/mission-utils";
 
 class App {
   async run() {
-    // 문자 입력
-    const respond = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n')
+
   }
 
   // 문자 숫자 추출
@@ -36,6 +35,11 @@ class App {
   // 결과 출력
   async print(result) {
     await Console.print(`결과: ${result}`);
+  }
+
+  // 문자 입력
+  async readLine() {
+    return await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n')
   }
 }
 

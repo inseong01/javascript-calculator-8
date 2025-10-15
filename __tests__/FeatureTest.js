@@ -52,7 +52,7 @@ describe("문자열 계산기 기능", () => {
     })
   })
 
-  test.only('문자 숫자 추출', async () => {
+  test('문자 숫자 추출', async () => {
     const inputs = ["1,2,3", "//;\n2;2;3"];
     const outputs = [['1', '2', '3'], ['2', '2', '3']];
 
@@ -60,6 +60,17 @@ describe("문자열 계산기 기능", () => {
 
     inputs.forEach((input, i) => {
       expect(app.extractNums(input)).toStrictEqual(outputs[i]);
+    })
+  })
+
+  test.only('숫자 더하기', async () => {
+    const inputs = [['1', '2', '3'], ['2', '2', '3']];
+    const outputs = [6, 7];
+
+    const app = new App();
+
+    inputs.forEach((input, i) => {
+      expect(app.sum(input)).toStrictEqual(outputs[i]);
     })
   })
 });

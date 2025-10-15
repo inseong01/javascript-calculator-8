@@ -30,6 +30,11 @@ class App {
 
     return numbers
   }
+
+  // 숫자 더하기
+  sum(nums) {
+    return nums.reduce((acc, cur) => acc + Number(cur), 0);
+  }
 }
 
 export default App;

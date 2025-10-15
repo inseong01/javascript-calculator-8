@@ -5,6 +5,19 @@ class App {
 
   }
 
+  // 계산기
+  async calculator() {
+    const respond = await this.readLine();
+
+    await this.validateInput(respond);
+
+    const nums = this.extractNums(respond);
+
+    const result = this.sum(nums);
+
+    await this.print(result);
+  }
+
   // 문자열 검증
   async validateInput(input) {
     if (!input.length) return await this.print('0')

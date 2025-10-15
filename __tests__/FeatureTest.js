@@ -16,6 +16,12 @@ const getLineAsyncSpy = () => {
   return lineSpy;
 };
 
+const getLogSpy = () => {
+  const logSpy = jest.spyOn(MissionUtils.Console, "print");
+  logSpy.mockClear();
+  return logSpy;
+};
+
 describe("문자열 계산기 기능", () => {
   test('문자 입력, 기본 상태 메시지 출력', async () => {
     // keeping Jest from exiting error: 입력 유지 해제 목적
@@ -31,4 +37,18 @@ describe("문자열 계산기 기능", () => {
     expect(lineSpy).toHaveBeenCalledWith(props)
   })
 
+  test('결과 출력, 입력한 문자열 출력', async () => {
+    const inputs = ["123"];
+    mockQuestions(inputs);
+
+    const logSpy = getLogSpy();
+    const outputs = ["결과: 123"];
+
+    const app = new App();
+    await app.run()
+
+    outputs.forEach((output) => {
+      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(output));
+    })
+  })
 });

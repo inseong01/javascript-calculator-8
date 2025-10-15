@@ -51,4 +51,15 @@ describe("문자열 계산기 기능", () => {
       expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(output));
     })
   })
+
+  test.only('문자 숫자 추출', async () => {
+    const inputs = ["1,2,3", "//;\n2;2;3"];
+    const outputs = [['1', '2', '3'], ['2', '2', '3']];
+
+    const app = new App();
+
+    inputs.forEach((input, i) => {
+      expect(app.extractNums(input)).toStrictEqual(outputs[i]);
+    })
+  })
 });

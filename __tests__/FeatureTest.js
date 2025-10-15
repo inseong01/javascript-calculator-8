@@ -37,18 +37,17 @@ describe("문자열 계산기 기능", () => {
     expect(lineSpy).toHaveBeenCalledWith(props)
   })
 
-  test('결과 출력, 입력한 문자열 출력', async () => {
-    const inputs = ["123"];
-    mockQuestions(inputs);
+  test.only('결과 출력, 입력한 문자열 출력', async () => {
+    const inputs = ["123", "0", "222"];
 
     const logSpy = getLogSpy();
-    const outputs = ["결과: 123"];
+    const outputs = ["결과: 123", "결과: 0", "결과: 222"];
 
     const app = new App();
-    await app.run()
 
-    outputs.forEach((output) => {
-      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(output));
+    inputs.forEach(async (input, i) => {
+      await app.print(input)
+      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(outputs[i]));
     })
   })
 
@@ -63,7 +62,7 @@ describe("문자열 계산기 기능", () => {
     })
   })
 
-  test.only('숫자 더하기', async () => {
+  test('숫자 더하기', async () => {
     const inputs = [['1', '2', '3'], ['2', '2', '3']];
     const outputs = [6, 7];
 

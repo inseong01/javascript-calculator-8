@@ -4,9 +4,6 @@ class App {
   async run() {
     // 문자 입력
     const respond = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n')
-
-    // 결과 출력
-    await Console.print(`결과: ${respond}`);
   }
 
   // 문자 숫자 추출
@@ -34,6 +31,11 @@ class App {
   // 숫자 더하기
   sum(nums) {
     return nums.reduce((acc, cur) => acc + Number(cur), 0);
+  }
+
+  // 결과 출력
+  async print(result) {
+    await Console.print(`결과: ${result}`);
   }
 }
 

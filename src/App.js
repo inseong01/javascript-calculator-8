@@ -5,6 +5,11 @@ class App {
 
   }
 
+  // 문자열 검증
+  async validateInput(input) {
+    if (!input.length) return await this.print('0')
+  }
+
   // 문자 숫자 추출
   extractNums(respond) {
     let numbers;

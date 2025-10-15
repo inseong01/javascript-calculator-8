@@ -23,7 +23,7 @@ const getLogSpy = () => {
 };
 
 describe("문자열 계산기 기능", () => {
-  test.only('문자 입력, 기본 상태 메시지 출력', async () => {
+  test('문자 입력, 기본 상태 메시지 출력', async () => {
     // keeping Jest from exiting error: 입력 유지 해제 목적
     const inputs = [" "];
     mockQuestions(inputs);
@@ -70,6 +70,20 @@ describe("문자열 계산기 기능", () => {
 
     inputs.forEach((input, i) => {
       expect(app.sum(input)).toStrictEqual(outputs[i]);
+    })
+  })
+
+  test.only('문자열 검증', async () => {
+    const inputs = [''];
+
+    const logSpy = getLogSpy();
+    const outputs = ['결과: 0'];
+
+    const app = new App();
+
+    inputs.forEach(async (input, i) => {
+      await app.validateInput(input)
+      expect(logSpy).toHaveBeenCalledWith(outputs[i]);
     })
   })
 });

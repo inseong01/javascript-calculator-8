@@ -1,18 +1,14 @@
 import { Console } from "@woowacourse/mission-utils";
+import { hasCustomDivision } from "./util/hasCustomDivision";
 
 class App {
   async run() {
 
   }
 
-  /** 문자열 검증, 메시지 출력 구현 */
-
   // 계산기
   async calculator() {
     const respond = await this.readLine();
-
-    const errrorType = this.validateInput(respond);
-    await this.throwMessage(errrorType);
 
     const nums = this.extractNums(respond);
 
@@ -35,12 +31,12 @@ class App {
     }
   }
 
-  // 문자열 검증
+  // 사용자 입력 검증
   validateInput(input) {
     input = input.trim();
 
     /**
-     * 숫자 추출 전 검증
+     * 사용자 입력
      * 
      * 1. 공백인지?
      * 2. 구분자로 끝나지 않았는지?
@@ -59,10 +55,8 @@ class App {
     const CUSTOM_START_DIVISION = '//';
     const CUSTOM_END_DIVISION = '\n';
 
-    const isCustom = respond.includes(CUSTOM_START_DIVISION)
-    if (isCustom) {
-      const custom = respond.substring(2, respond.indexOf(CUSTOM_END_DIVISION));
-
+    const custom = hasCustomDivision(respond);
+    if (custom) {
       division = new RegExp(custom);
       respond = respond.slice(respond.indexOf(CUSTOM_END_DIVISION)).trim()
     }
@@ -84,7 +78,12 @@ class App {
 
   // 문자 입력
   async readLine() {
-    return await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n')
+    const respond = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
+
+    const errrorType = this.validateInput(respond);
+    await this.throwMessage(errrorType);
+
+    return respond;
   }
 }
 

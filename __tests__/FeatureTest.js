@@ -85,7 +85,7 @@ describe("문자열 계산기 기능", () => {
     })
   })
 
-  describe.only('메시지 출력', () => {
+  describe('메시지 출력', () => {
     test('오류 반환', async () => {
       const inputs = ['NOT_END_WITH_NUMBER'];
       const outputs = ['[ERROR]'];

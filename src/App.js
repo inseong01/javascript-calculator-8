@@ -3,7 +3,12 @@ import { hasCustomDivision } from "./util/hasCustomDivision.js";
 
 class App {
   async run() {
-    await this.calculator();
+    try {
+      await this.calculator();
+      // await this.run();
+    } catch (err) {
+      throw Error(err);
+    }
   }
 
   /**
@@ -26,9 +31,6 @@ class App {
   */
   async throwMessage(type) {
     switch (type) {
-      case 'EMPTY_STRING': {
-        return await this.print('0');
-      }
       case 'NOT_END_WITH_NUMBER': {
         await Console.print('[ERROR]');
         throw Error('[ERROR]');
@@ -92,7 +94,7 @@ class App {
      * 2. 구분자로 끝나지 않았는지?
      */
 
-    if (!input.length) return 'EMPTY_STRING';
+    if (!input) return '';
 
     if (input.endsWith(',') || input.endsWith(':')) return 'NOT_END_WITH_NUMBER';
 
@@ -144,7 +146,7 @@ class App {
    * @returns string
    */
   async readLine() {
-    const respond = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
+    const respond = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n') ?? '';
 
     const errorType = this.validateInput(respond);
     await this.throwMessage(errorType);

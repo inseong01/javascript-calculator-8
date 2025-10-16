@@ -74,8 +74,8 @@ describe("문자열 계산기 기능", () => {
   })
 
   test('문자열 검증', () => {
-    const inputs = ['', '   ', '1,2,', '1:'];
-    const outputs = ['EMPTY_STRING', 'EMPTY_STRING', 'NOT_END_WITH_NUMBER', 'NOT_END_WITH_NUMBER'];
+    const inputs = ['1,2,', '1:'];
+    const outputs = ['NOT_END_WITH_NUMBER', 'NOT_END_WITH_NUMBER'];
 
     const app = new App();
 
@@ -115,24 +115,6 @@ describe("문자열 계산기 기능", () => {
         }
         await expect(throwMessageFn).rejects.toThrow(new Error(output));
         expect(logSpy).toHaveBeenCalledWith(output);
-      })
-    })
-
-    test('오류 미반환', async () => {
-      const inputs = ['', 'EMPTY_STRING'];
-      const outputs = [undefined, '결과 : 0'];
-
-      const logSpy = getLogSpy();
-      const app = new App();
-
-      inputs.forEach(async (input, i) => {
-        await app.throwMessage(input);
-
-        if (!input) {
-          return expect(logSpy).not.toHaveBeenCalledWith(outputs[i])
-        }
-
-        expect(logSpy).toHaveBeenCalledWith(outputs[i])
       })
     })
   })

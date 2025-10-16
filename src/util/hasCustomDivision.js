@@ -8,7 +8,7 @@ export function hasCustomDivision(respond) {
   const CUSTOM_START_DIVISION = '//';
   if (!respond.startsWith(CUSTOM_START_DIVISION)) return '';
 
-  const CUSTOM_END_DIVISION = '\n';
+  const CUSTOM_END_DIVISION = '\\n';
   const lastCustomIdx = respond.indexOf(CUSTOM_END_DIVISION);
 
   return respond.substring(2, lastCustomIdx);

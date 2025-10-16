@@ -1,12 +1,14 @@
 import { Console } from "@woowacourse/mission-utils";
-import { hasCustomDivision } from "./util/hasCustomDivision";
+import { hasCustomDivision } from "./util/hasCustomDivision.js";
 
 class App {
   async run() {
-
+    await this.calculator();
   }
 
-  // 계산기
+  /**
+   * 계산기
+   */
   async calculator() {
     const respond = await this.readLine();
 
@@ -17,7 +19,11 @@ class App {
     await this.print(result);
   }
 
-  // 메시지 출력
+  /**
+  * 메시지 출력
+  * @param type string 
+  * @returns string
+  */
   async throwMessage(type) {
     switch (type) {
       case 'EMPTY_STRING': {
@@ -25,25 +31,29 @@ class App {
       }
       case 'NOT_END_WITH_NUMBER': {
         await Console.print('[ERROR]');
-        throw Error();
+        throw Error('[ERROR]');
       }
       case 'NOT_ALLOWED_NEGATIVE': {
         await Console.print('[ERROR]');
-        throw Error();
+        throw Error('[ERROR]');
       }
       case 'NOT_ALLOWED_NAN': {
         await Console.print('[ERROR]');
-        throw Error();
+        throw Error('[ERROR]');
       }
       case 'ONLY_ENTER_INTEGER': {
         await Console.print('[ERROR]');
-        throw Error();
+        throw Error('[ERROR]');
       }
-      default: return;
+      default: return '';
     }
   }
 
-  // 숫자 검증
+  /**
+   * 문자 유형 숫자 배열 검증
+   * @param nums string[] 
+   * @returns string
+   */
   validateNums(nums) {
     nums = nums.map(num => Number(num));
 
@@ -67,7 +77,11 @@ class App {
     return '';
   }
 
-  // 사용자 입력 검증
+  /**
+   * 사용자 입력 검증 
+   * @param input string 
+   * @returns string
+   */
   validateInput(input) {
     input = input?.trim() ?? '';
 
@@ -85,40 +99,50 @@ class App {
     return '';
   }
 
-  // 문자 숫자 추출
+  /**
+   * 문자 숫자 추출
+   * @param respond string 
+   * @returns string[]
+   */
   extractNums(respond) {
-    let numbers;
-    let division = /,|:/;
-
-    // 커스텀 문자열 판단
-    const CUSTOM_START_DIVISION = '//';
-    const CUSTOM_END_DIVISION = '\n';
+    let division = /,|:/g;
 
     const custom = hasCustomDivision(respond);
     if (custom) {
-      division = new RegExp(custom);
-      respond = respond.slice(respond.indexOf(CUSTOM_END_DIVISION)).trim()
+      division = new RegExp(custom, 'g');
+      respond = respond.substring(2 + custom.length + 2);
     }
 
-    numbers = respond.split(division)
+    const csvFormatted = respond.replaceAll(division, ',');
+    const numbers = csvFormatted.split(',');
 
     return numbers
   }
 
-  // 숫자 더하기
+  /**
+   * 숫자 더하기
+   * @param nums string[] 
+   * @returns number
+   */
   async sum(nums) {
     const errorType = this.validateNums(nums);
     await this.throwMessage(errorType);
 
-    return nums.reduce((acc, cur) => acc + cur, 0);
+    return nums.reduce((acc, cur) => acc + Number(cur), 0);
   }
 
-  // 결과 출력
+  /**
+   * 결과 출력
+   * @param result string 
+   */
   async print(result) {
-    await Console.print(`결과: ${result}`);
+    await Console.print(`결과 : ${result}`);
   }
 
-  // 문자 입력
+  /**
+   * 문자 입력
+   * @returns string
+   */
   async readLine() {
     const respond = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
 

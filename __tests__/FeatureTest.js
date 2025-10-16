@@ -41,7 +41,7 @@ describe("문자열 계산기 기능", () => {
     const inputs = ["123", "0", "222"];
 
     const logSpy = getLogSpy();
-    const outputs = ["결과: 123", "결과: 0", "결과: 222"];
+    const outputs = ["결과 : 123", "결과 : 0", "결과 : 222"];
 
     const app = new App();
 
@@ -51,9 +51,9 @@ describe("문자열 계산기 기능", () => {
     })
   })
 
-  test('문자 숫자 추출', async () => {
-    const inputs = ["1,2,3", "//;\n2;2;3"];
-    const outputs = [['1', '2', '3'], ['2', '2', '3']];
+  test('문자 숫자 추출', () => {
+    const inputs = ["1,2,3", "//;\\n2;2;3", "1,1:1"];
+    const outputs = [['1', '2', '3'], ['2', '2', '3'], ['1', '1', '1']];
 
     const app = new App();
 
@@ -62,14 +62,14 @@ describe("문자열 계산기 기능", () => {
     })
   })
 
-  test('숫자 더하기', async () => {
+  test('숫자 더하기', () => {
     const inputs = [['1', '2', '3'], ['2', '2', '3']];
     const outputs = [6, 7];
 
     const app = new App();
 
-    inputs.forEach((input, i) => {
-      expect(app.sum(input)).toStrictEqual(outputs[i]);
+    inputs.forEach(async (input, i) => {
+      expect(await app.sum(input)).toBe(outputs[i]);
     })
   })
 
@@ -86,9 +86,9 @@ describe("문자열 계산기 기능", () => {
   })
 
   describe('메시지 출력', () => {
-    test.only('문자 오류 반환', async () => {
+    test('문자 오류 반환', async () => {
       const inputs = ['NOT_END_WITH_NUMBER'];
-      const outputs = ['[ERROR]'];
+      const output = '[ERROR]';
 
       const logSpy = getLogSpy();
       const app = new App();
@@ -97,13 +97,12 @@ describe("문자열 계산기 기능", () => {
         async function throwMessageFn() {
           return await app.throwMessage(input)
         }
-        await expect(throwMessageFn).rejects.toThrow(new Error());
-
-        expect(logSpy).toHaveBeenCalledWith(outputs[i]);
+        await expect(throwMessageFn).rejects.toThrow(new Error(output));
+        expect(logSpy).toHaveBeenCalledWith(output);
       })
     })
 
-    test.only('숫자 오류 반환', async () => {
+    test('숫자 오류 반환', async () => {
       const inputs = ['NOT_END_WITH_NUMBER', 'NOT_ALLOWED_NEGATIVE', 'NOT_ALLOWED_NAN', 'ONLY_ENTER_INTEGER'];
       const output = '[ERROR]';
 
@@ -114,15 +113,14 @@ describe("문자열 계산기 기능", () => {
         async function throwMessageFn() {
           return await app.throwMessage(input)
         }
-        await expect(throwMessageFn).rejects.toThrow(new Error());
-
+        await expect(throwMessageFn).rejects.toThrow(new Error(output));
         expect(logSpy).toHaveBeenCalledWith(output);
       })
     })
 
     test('오류 미반환', async () => {
       const inputs = ['', 'EMPTY_STRING'];
-      const outputs = [undefined, '결과: 0'];
+      const outputs = [undefined, '결과 : 0'];
 
       const logSpy = getLogSpy();
       const app = new App();

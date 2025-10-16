@@ -73,17 +73,52 @@ describe("문자열 계산기 기능", () => {
     })
   })
 
-  test.only('문자열 검증', async () => {
-    const inputs = [''];
-
-    const logSpy = getLogSpy();
-    const outputs = ['결과: 0'];
+  test('문자열 검증', () => {
+    const inputs = ['', '   ', '1,2,', '1:'];
+    const outputs = ['EMPTY_STRING', 'EMPTY_STRING', 'NOT_END_WITH_NUMBER', 'NOT_END_WITH_NUMBER'];
 
     const app = new App();
 
     inputs.forEach(async (input, i) => {
-      await app.validateInput(input)
-      expect(logSpy).toHaveBeenCalledWith(outputs[i]);
+      const result = app.validateInput(input)
+      expect(result).toBe(outputs[i]);
+    })
+  })
+
+  describe.only('메시지 출력', () => {
+    test('오류 반환', async () => {
+      const inputs = ['NOT_END_WITH_NUMBER'];
+      const outputs = ['[ERROR]'];
+
+      const logSpy = getLogSpy();
+      const app = new App();
+
+      inputs.forEach(async (input, i) => {
+        async function throwMessageFn() {
+          return await app.throwMessage(input)
+        }
+        await expect(throwMessageFn).rejects.toThrow(new Error());
+
+        expect(logSpy).toHaveBeenCalledWith(outputs[i]);
+      })
+    })
+
+    test('오류 미반환', async () => {
+      const inputs = ['', 'EMPTY_STRING',];
+      const outputs = [undefined, '결과: 0'];
+
+      const logSpy = getLogSpy();
+      const app = new App();
+
+      inputs.forEach(async (input, i) => {
+        await app.throwMessage(input);
+
+        if (!input) {
+          return expect(logSpy).not.toHaveBeenCalledWith(outputs[i])
+        }
+
+        expect(logSpy).toHaveBeenCalledWith(outputs[i])
+      })
     })
   })
 });

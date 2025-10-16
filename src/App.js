@@ -5,11 +5,14 @@ class App {
 
   }
 
+  /** 문자열 검증, 메시지 출력 구현 */
+
   // 계산기
   async calculator() {
     const respond = await this.readLine();
 
-    await this.validateInput(respond);
+    const errrorType = this.validateInput(respond);
+    await this.throwMessage(errrorType);
 
     const nums = this.extractNums(respond);
 
@@ -18,9 +21,33 @@ class App {
     await this.print(result);
   }
 
+  // 메시지 출력
+  async throwMessage(type) {
+    switch (type) {
+      case 'EMPTY_STRING': {
+        return await this.print('0');
+      }
+      case 'NOT_END_WITH_NUMBER': {
+        await Console.print('[ERROR]');
+        throw Error();
+      }
+      default: return;
+    }
+  }
+
   // 문자열 검증
-  async validateInput(input) {
-    if (!input.length) return await this.print('0')
+  validateInput(input) {
+    input = input.trim();
+
+    /**
+     * 숫자 추출 전 검증
+     * 
+     * 1. 공백인지?
+     * 2. 구분자로 끝나지 않았는지?
+     */
+
+    if (!input.length) return 'EMPTY_STRING';
+    if (input.endsWith(',') || input.endsWith(':')) return 'NOT_END_WITH_NUMBER';
   }
 
   // 문자 숫자 추출

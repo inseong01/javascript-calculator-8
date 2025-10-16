@@ -86,7 +86,7 @@ describe("문자열 계산기 기능", () => {
   })
 
   describe('메시지 출력', () => {
-    test('오류 반환', async () => {
+    test.only('문자 오류 반환', async () => {
       const inputs = ['NOT_END_WITH_NUMBER'];
       const outputs = ['[ERROR]'];
 
@@ -100,6 +100,23 @@ describe("문자열 계산기 기능", () => {
         await expect(throwMessageFn).rejects.toThrow(new Error());
 
         expect(logSpy).toHaveBeenCalledWith(outputs[i]);
+      })
+    })
+
+    test.only('숫자 오류 반환', async () => {
+      const inputs = ['NOT_END_WITH_NUMBER', 'NOT_ALLOWED_NEGATIVE', 'NOT_ALLOWED_NAN', 'ONLY_ENTER_INTEGER'];
+      const output = '[ERROR]';
+
+      const logSpy = getLogSpy();
+      const app = new App();
+
+      inputs.forEach(async (input, i) => {
+        async function throwMessageFn() {
+          return await app.throwMessage(input)
+        }
+        await expect(throwMessageFn).rejects.toThrow(new Error());
+
+        expect(logSpy).toHaveBeenCalledWith(output);
       })
     })
 
@@ -122,9 +139,9 @@ describe("문자열 계산기 기능", () => {
     })
   })
 
-  test.only('숫자 검증', () => {
+  test('숫자 검증', () => {
     const inputs = [['-1', '0', '3'], ['1', '2', '3'], [',', '2', '3'], ['1.1', '4']];
-    const outputs = ['NOT_ALLOWED_NEGATIVE', '', 'NOT_ALLOWED_NaN', 'ONLY_ENTER_INTEGER'];
+    const outputs = ['NOT_ALLOWED_NEGATIVE', '', 'NOT_ALLOWED_NAN', 'ONLY_ENTER_INTEGER'];
 
     const app = new App();
 

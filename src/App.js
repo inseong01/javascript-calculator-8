@@ -12,7 +12,7 @@ class App {
 
     const nums = this.extractNums(respond);
 
-    const result = this.sum(nums);
+    const result = await this.sum(nums);
 
     await this.print(result);
   }
@@ -24,6 +24,18 @@ class App {
         return await this.print('0');
       }
       case 'NOT_END_WITH_NUMBER': {
+        await Console.print('[ERROR]');
+        throw Error();
+      }
+      case 'NOT_ALLOWED_NEGATIVE': {
+        await Console.print('[ERROR]');
+        throw Error();
+      }
+      case 'NOT_ALLOWED_NAN': {
+        await Console.print('[ERROR]');
+        throw Error();
+      }
+      case 'ONLY_ENTER_INTEGER': {
         await Console.print('[ERROR]');
         throw Error();
       }
@@ -47,7 +59,7 @@ class App {
     if (hasNegative) return 'NOT_ALLOWED_NEGATIVE';
 
     const hasNaN = nums.some((num) => Number.isNaN(num));
-    if (hasNaN) return 'NOT_ALLOWED_NaN';
+    if (hasNaN) return 'NOT_ALLOWED_NAN';
 
     const isInteger = nums.every((num) => Number.isInteger(num));
     if (!isInteger) return 'ONLY_ENTER_INTEGER';
@@ -57,7 +69,7 @@ class App {
 
   // 사용자 입력 검증
   validateInput(input) {
-    input = input.trim();
+    input = input?.trim() ?? '';
 
     /**
      * 사용자 입력
@@ -94,8 +106,11 @@ class App {
   }
 
   // 숫자 더하기
-  sum(nums) {
-    return nums.reduce((acc, cur) => acc + Number(cur), 0);
+  async sum(nums) {
+    const errorType = this.validateNums(nums);
+    await this.throwMessage(errorType);
+
+    return nums.reduce((acc, cur) => acc + cur, 0);
   }
 
   // 결과 출력
@@ -107,8 +122,8 @@ class App {
   async readLine() {
     const respond = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
 
-    const errrorType = this.validateInput(respond);
-    await this.throwMessage(errrorType);
+    const errorType = this.validateInput(respond);
+    await this.throwMessage(errorType);
 
     return respond;
   }

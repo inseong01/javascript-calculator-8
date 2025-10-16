@@ -104,7 +104,7 @@ describe("문자열 계산기 기능", () => {
     })
 
     test('오류 미반환', async () => {
-      const inputs = ['', 'EMPTY_STRING',];
+      const inputs = ['', 'EMPTY_STRING'];
       const outputs = [undefined, '결과: 0'];
 
       const logSpy = getLogSpy();
@@ -119,6 +119,18 @@ describe("문자열 계산기 기능", () => {
 
         expect(logSpy).toHaveBeenCalledWith(outputs[i])
       })
+    })
+  })
+
+  test.only('숫자 검증', () => {
+    const inputs = [['-1', '0', '3'], ['1', '2', '3'], [',', '2', '3'], ['1.1', '4']];
+    const outputs = ['NOT_ALLOWED_NEGATIVE', '', 'NOT_ALLOWED_NaN', 'ONLY_ENTER_INTEGER'];
+
+    const app = new App();
+
+    inputs.forEach((input, i) => {
+      const result = app.validateNums(input);
+      expect(result).toBe(outputs[i])
     })
   })
 });

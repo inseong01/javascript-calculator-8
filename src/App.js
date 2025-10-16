@@ -31,6 +31,30 @@ class App {
     }
   }
 
+  // 숫자 검증
+  validateNums(nums) {
+    nums = nums.map(num => Number(num));
+
+    /**
+     * 숫자 배열 검증
+     * 
+     * 1. 음수인지?
+     * 2. NaN인지?
+     * 3. 정수인지?
+     */
+
+    const hasNegative = nums.some((num) => Math.sign(num) === -1);
+    if (hasNegative) return 'NOT_ALLOWED_NEGATIVE';
+
+    const hasNaN = nums.some((num) => Number.isNaN(num));
+    if (hasNaN) return 'NOT_ALLOWED_NaN';
+
+    const isInteger = nums.every((num) => Number.isInteger(num));
+    if (!isInteger) return 'ONLY_ENTER_INTEGER';
+
+    return '';
+  }
+
   // 사용자 입력 검증
   validateInput(input) {
     input = input.trim();
@@ -43,7 +67,10 @@ class App {
      */
 
     if (!input.length) return 'EMPTY_STRING';
+
     if (input.endsWith(',') || input.endsWith(':')) return 'NOT_END_WITH_NUMBER';
+
+    return '';
   }
 
   // 문자 숫자 추출

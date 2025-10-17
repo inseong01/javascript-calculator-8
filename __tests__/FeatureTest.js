@@ -57,8 +57,8 @@ describe("문자열 계산기 기능", () => {
 
     const app = new App();
 
-    inputs.forEach((input, i) => {
-      expect(app.extractNums(input)).toStrictEqual(outputs[i]);
+    inputs.forEach(async (input, i) => {
+      expect(await app.extractNums(input)).toStrictEqual(outputs[i]);
     })
   })
 
@@ -130,4 +130,17 @@ describe("문자열 계산기 기능", () => {
       expect(result).toBe(outputs[i])
     })
   })
+
+  test('커스텀 구분자 검증', () => {
+    const inputs = ['c', '', '123', ' '];
+    const outputs = ['', 'CUSTOM_DIVISION_EMPTY', 'CUSTOM_DIVISION_NUMBER', ''];
+
+    const app = new App();
+
+    inputs.forEach((input, i) => {
+      const result = app.validateCustomDivision(input);
+      expect(result).toBe(outputs[i])
+    })
+  })
+
 });

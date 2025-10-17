@@ -17,7 +17,7 @@ class App {
   async calculator() {
     const respond = await this.readLine();
 
-    const nums = this.extractNums(respond);
+    const nums = await this.extractNums(respond);
 
     const result = await this.sum(nums);
 
@@ -47,8 +47,40 @@ class App {
         await Console.print('[ERROR]');
         throw Error('[ERROR]');
       }
+      case 'CUSTOM_DIVISION_EMPTY': {
+        await Console.print('[ERROR]');
+        throw Error('[ERROR]');
+      }
+      case 'CUSTOM_DIVISION_NUMBER': {
+        await Console.print('[ERROR]');
+        throw Error('[ERROR]');
+      }
       default: return '';
     }
+  }
+
+  /**
+   * 커스텀 구분자 검증
+   * @param division string 
+   * @return string
+   */
+  validateCustomDivision(division) {
+    /**
+     * 커스텀 구분자
+     * 
+     * 1. 구분자가 존재하는지?
+     * 2. 공백 구분인지?
+     * 3. 숫자가 아닌지?
+     */
+
+    if (!division) return 'CUSTOM_DIVISION_EMPTY';
+
+    if (!division.trim()) return '';
+
+    const isNaN = Number.isNaN(Number(division));
+    if (!isNaN) return 'CUSTOM_DIVISION_NUMBER';
+
+    return '';
   }
 
   /**
@@ -106,11 +138,14 @@ class App {
    * @param respond string 
    * @returns string[]
    */
-  extractNums(respond) {
+  async extractNums(respond) {
     let division = /,|:/g;
 
     const custom = hasCustomDivision(respond);
     if (custom) {
+      const hasMessage = this.validateCustomDivision(custom);
+      await this.throwMessage(hasMessage);
+
       division = new RegExp(custom, 'g');
       respond = respond.substring(2 + custom.length + 2);
     }

@@ -1,8 +1,8 @@
 /**
  * 커스텀 문자 여부 판단 및 반환 함수
  * 
- * @param respond string 
- * @returns 커스텀 문자 또는 빈 문자열
+ * @param {string} respond '//q\n1q2q3' '1,2:3'
+ * @returns 커스텀 문자 또는 'BASE'
  */
 export function hasCustomDivision(respond) {
   const CUSTOM_START_DIVISION = '//';

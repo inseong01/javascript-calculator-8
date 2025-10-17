@@ -1,10 +1,9 @@
 /**
  * 유형 메시지 출력 및 오류 던지는 함수
  * 
- * @param type string 
+ * @param {string} type  
  * @param Console woowacourse/mission-utils 
- * @returns Error('[Error]')
- */
+  */
 export async function throwMessage(type, Console) {
   switch (type) {
     case 'NOT_END_WITH_NUMBER': {
@@ -31,6 +30,6 @@ export async function throwMessage(type, Console) {
       await Console.print('[ERROR]');
       throw Error('[ERROR]');
     }
-    default: return '';
+    default: return;
   }
 }

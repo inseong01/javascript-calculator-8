@@ -1,7 +1,7 @@
 /**
  * 커스텀 구분자 검증
- * @param division string 
- * @return string
+ * @param {string} division 'q' 'BASE' 
+ * @return {string} 오류 메시지 유형
  */
 export function validateCustomDivision(division) {
   /**

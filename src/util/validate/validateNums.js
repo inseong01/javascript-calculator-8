@@ -1,7 +1,7 @@
 /**
  * 문자 유형 숫자 배열 검증
- * @param nums string[] 
- * @returns string
+ * @param {string[]} nums ['1', '2', '3'] 
+ * @returns {string} 오류 메시지 유형  
  */
 export function validateNums(nums) {
   nums = nums.map(num => Number(num));

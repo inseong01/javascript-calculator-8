@@ -1,7 +1,7 @@
 /**
  * 사용자 입력 검증 
- * @param input string 
- * @returns string
+ * @param {string} input  '//q\n1q2q3' '1,2:3'
+ * @returns {string} 오류 메시지 유형
  */
 export function validateInput(input) {
   input = input?.trim() ?? '';

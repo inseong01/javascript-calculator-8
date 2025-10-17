@@ -34,7 +34,7 @@ class App {
   /**
    * 문자 숫자 추출
    * @param {string} respond 
-   * @returns {string[]} ['1', '1', '1']
+   * @returns {Promise<string[]>} ['1', '1', '1']
    */
   async extractNums(respond) {
     const hasCustom = hasCustomDivision(respond);
@@ -53,8 +53,8 @@ class App {
 
   /**
    * 숫자 더하기
-   * @param nums string[] 
-   * @returns number
+   * @param {string[]} nums ['1', '2', '3'] 
+   * @returns {Promise<number>}
    */
   async sum(nums) {
     const hasMessage = validateNums(nums);
@@ -65,7 +65,7 @@ class App {
 
   /**
    * 결과 출력
-   * @param result string 
+   * @param {string} result "결과 : ${result}"
    */
   async print(result) {
     await Console.print(`결과 : ${result}`);
@@ -73,7 +73,7 @@ class App {
 
   /**
    * 문자 입력
-   * @returns string
+   * @returns {Promise<string>} "1,2:3" "//q\n1q2"
    */
   async readLine() {
     const respond = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n') ?? '';

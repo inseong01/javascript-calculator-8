@@ -2,6 +2,9 @@ import { Console } from "@woowacourse/mission-utils";
 
 import { hasCustomDivision } from "./util/hasCustomDivision.js";
 import { throwMessage } from "./util/throwMessage.js";
+import { validateNums } from "./util/validate/validateNums.js";
+import { validateInput } from "./util/validate/validateInput.js";
+import { validateCustomDivision } from "./util/validate/validateCustomDivision.js";
 
 class App {
   async run() {
@@ -26,81 +29,6 @@ class App {
     await this.print(result);
   }
 
-
-  /**
-   * 커스텀 구분자 검증
-   * @param division string 
-   * @return string
-   */
-  validateCustomDivision(division) {
-    /**
-     * 커스텀 구분자
-     * 
-     * 1. 구분자가 존재하는지?
-     * 2. 공백 구분인지?
-     * 3. 숫자가 아닌지?
-     */
-
-    if (!division) return 'CUSTOM_DIVISION_EMPTY';
-
-    if (!division.trim()) return '';
-
-    const isNaN = Number.isNaN(Number(division));
-    if (!isNaN) return 'CUSTOM_DIVISION_NUMBER';
-
-    return '';
-  }
-
-  /**
-   * 문자 유형 숫자 배열 검증
-   * @param nums string[] 
-   * @returns string
-   */
-  validateNums(nums) {
-    nums = nums.map(num => Number(num));
-
-    /**
-     * 숫자 배열 검증
-     * 
-     * 1. 음수인지?
-     * 2. NaN인지?
-     * 3. 정수인지?
-     */
-
-    const hasNegative = nums.some((num) => Math.sign(num) === -1);
-    if (hasNegative) return 'NOT_ALLOWED_NEGATIVE';
-
-    const hasNaN = nums.some((num) => Number.isNaN(num));
-    if (hasNaN) return 'NOT_ALLOWED_NAN';
-
-    const isInteger = nums.every((num) => Number.isInteger(num));
-    if (!isInteger) return 'ONLY_ENTER_INTEGER';
-
-    return '';
-  }
-
-  /**
-   * 사용자 입력 검증 
-   * @param input string 
-   * @returns string
-   */
-  validateInput(input) {
-    input = input?.trim() ?? '';
-
-    /**
-     * 사용자 입력
-     * 
-     * 1. 공백인지?
-     * 2. 구분자로 끝나지 않았는지?
-     */
-
-    if (!input) return '';
-
-    if (input.endsWith(',') || input.endsWith(':')) return 'NOT_END_WITH_NUMBER';
-
-    return '';
-  }
-
   /**
    * 문자 숫자 추출
    * @param respond string 
@@ -111,7 +39,7 @@ class App {
 
     const custom = hasCustomDivision(respond);
     if (custom) {
-      const hasMessage = this.validateCustomDivision(custom);
+      const hasMessage = validateCustomDivision(custom);
       await throwMessage(hasMessage, Console);
 
       division = new RegExp(custom, 'g');
@@ -130,7 +58,7 @@ class App {
    * @returns number
    */
   async sum(nums) {
-    const hasMessage = this.validateNums(nums);
+    const hasMessage = validateNums(nums);
     await throwMessage(hasMessage, Console);
 
     return nums.reduce((acc, cur) => acc + Number(cur), 0);
@@ -151,7 +79,7 @@ class App {
   async readLine() {
     const respond = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n') ?? '';
 
-    const hasMessage = this.validateInput(respond);
+    const hasMessage = validateInput(respond);
     await throwMessage(hasMessage, Console);
 
     return respond;

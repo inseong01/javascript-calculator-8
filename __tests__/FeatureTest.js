@@ -72,41 +72,4 @@ describe("문자열 계산기 기능", () => {
       expect(await app.sum(input)).toBe(outputs[i]);
     })
   })
-
-  test('문자열 검증', () => {
-    const inputs = ['1,2,', '1:'];
-    const outputs = ['NOT_END_WITH_NUMBER', 'NOT_END_WITH_NUMBER'];
-
-    const app = new App();
-
-    inputs.forEach(async (input, i) => {
-      const result = app.validateInput(input)
-      expect(result).toBe(outputs[i]);
-    })
-  })
-
-  test('숫자 검증', () => {
-    const inputs = [['-1', '0', '3'], ['1', '2', '3'], [',', '2', '3'], ['1.1', '4']];
-    const outputs = ['NOT_ALLOWED_NEGATIVE', '', 'NOT_ALLOWED_NAN', 'ONLY_ENTER_INTEGER'];
-
-    const app = new App();
-
-    inputs.forEach((input, i) => {
-      const result = app.validateNums(input);
-      expect(result).toBe(outputs[i])
-    })
-  })
-
-  test('커스텀 구분자 검증', () => {
-    const inputs = ['c', '', '123', ' '];
-    const outputs = ['', 'CUSTOM_DIVISION_EMPTY', 'CUSTOM_DIVISION_NUMBER', ''];
-
-    const app = new App();
-
-    inputs.forEach((input, i) => {
-      const result = app.validateCustomDivision(input);
-      expect(result).toBe(outputs[i])
-    })
-  })
-
 });

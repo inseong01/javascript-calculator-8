@@ -10,6 +10,8 @@ export function validateCustomDivision(division) {
    * 3. 숫자가 아닌지?
    */
 
+  if (division === 'BASE') return '';
+
   if (!division) return 'CUSTOM_DIVISION_EMPTY';
 
   if (!division.trim()) return '';

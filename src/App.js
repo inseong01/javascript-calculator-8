@@ -5,6 +5,8 @@ import { throwMessage } from "./util/throwMessage.js";
 import { validateNums } from "./util/validate/validateNums.js";
 import { validateInput } from "./util/validate/validateInput.js";
 import { validateCustomDivision } from "./util/validate/validateCustomDivision.js";
+import { extractDivisionRegx } from "./util/extractDivisionRegx.js";
+import { trimRespondPrefix } from "./util/trimRespondPrefix.js";
 
 class App {
   async run() {
@@ -31,25 +33,22 @@ class App {
 
   /**
    * 문자 숫자 추출
-   * @param respond string 
-   * @returns string[]
+   * @param {string} respond 
+   * @returns {string[]} ['1', '1', '1']
    */
   async extractNums(respond) {
-    let division = /,|:/g;
+    const hasCustom = hasCustomDivision(respond);
 
-    const custom = hasCustomDivision(respond);
-    if (custom) {
-      const hasMessage = validateCustomDivision(custom);
-      await throwMessage(hasMessage, Console);
+    const hasMessage = validateCustomDivision(hasCustom);
+    await throwMessage(hasMessage, Console);
 
-      division = new RegExp(custom, 'g');
-      respond = respond.substring(2 + custom.length + 2);
-    }
+    const divisionRegx = extractDivisionRegx(hasCustom);
+    const trimedRespond = trimRespondPrefix(respond, hasCustom);
 
-    const csvFormatted = respond.replaceAll(division, ',');
+    const csvFormatted = trimedRespond.replaceAll(divisionRegx, ',');
     const numbers = csvFormatted.split(',');
 
-    return numbers
+    return numbers;
   }
 
   /**

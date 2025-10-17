@@ -6,7 +6,7 @@
  */
 export function hasCustomDivision(respond) {
   const CUSTOM_START_DIVISION = '//';
-  if (!respond.startsWith(CUSTOM_START_DIVISION)) return '';
+  if (!respond.startsWith(CUSTOM_START_DIVISION)) return 'BASE';
 
   const CUSTOM_END_DIVISION = '\\n';
   const lastCustomIdx = respond.indexOf(CUSTOM_END_DIVISION);

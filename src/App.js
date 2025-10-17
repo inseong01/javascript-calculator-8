@@ -1,5 +1,7 @@
 import { Console } from "@woowacourse/mission-utils";
+
 import { hasCustomDivision } from "./util/hasCustomDivision.js";
+import { throwMessage } from "./util/throwMessage.js";
 
 class App {
   async run() {
@@ -24,40 +26,6 @@ class App {
     await this.print(result);
   }
 
-  /**
-  * 메시지 출력
-  * @param type string 
-  * @returns string
-  */
-  async throwMessage(type) {
-    switch (type) {
-      case 'NOT_END_WITH_NUMBER': {
-        await Console.print('[ERROR]');
-        throw Error('[ERROR]');
-      }
-      case 'NOT_ALLOWED_NEGATIVE': {
-        await Console.print('[ERROR]');
-        throw Error('[ERROR]');
-      }
-      case 'NOT_ALLOWED_NAN': {
-        await Console.print('[ERROR]');
-        throw Error('[ERROR]');
-      }
-      case 'ONLY_ENTER_INTEGER': {
-        await Console.print('[ERROR]');
-        throw Error('[ERROR]');
-      }
-      case 'CUSTOM_DIVISION_EMPTY': {
-        await Console.print('[ERROR]');
-        throw Error('[ERROR]');
-      }
-      case 'CUSTOM_DIVISION_NUMBER': {
-        await Console.print('[ERROR]');
-        throw Error('[ERROR]');
-      }
-      default: return '';
-    }
-  }
 
   /**
    * 커스텀 구분자 검증
@@ -144,7 +112,7 @@ class App {
     const custom = hasCustomDivision(respond);
     if (custom) {
       const hasMessage = this.validateCustomDivision(custom);
-      await this.throwMessage(hasMessage);
+      await throwMessage(hasMessage, Console);
 
       division = new RegExp(custom, 'g');
       respond = respond.substring(2 + custom.length + 2);
@@ -162,8 +130,8 @@ class App {
    * @returns number
    */
   async sum(nums) {
-    const errorType = this.validateNums(nums);
-    await this.throwMessage(errorType);
+    const hasMessage = this.validateNums(nums);
+    await throwMessage(hasMessage, Console);
 
     return nums.reduce((acc, cur) => acc + Number(cur), 0);
   }
@@ -183,8 +151,8 @@ class App {
   async readLine() {
     const respond = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n') ?? '';
 
-    const errorType = this.validateInput(respond);
-    await this.throwMessage(errorType);
+    const hasMessage = this.validateInput(respond);
+    await throwMessage(hasMessage, Console);
 
     return respond;
   }

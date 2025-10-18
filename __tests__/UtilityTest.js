@@ -102,8 +102,12 @@ describe("유틸리티", () => {
     })
 
     test('커스텀 구분자인 경우', () => {
-      const inputs = ['', 'a']
-      const outputs = [new RegExp('', 'g'), new RegExp('a', 'g')]
+      const inputs = ['', 'a', '\\', '\\\\'];
+
+      function setRegExp(props) {
+        return new RegExp(props, 'g');
+      }
+      const outputs = [setRegExp(''), setRegExp('a'), setRegExp('\\\\'), setRegExp('\\\\\\\\')];
 
       inputs.forEach((input, i) => {
         expect(extractDivisionRegx(input)).toEqual(outputs[i])

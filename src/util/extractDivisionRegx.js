@@ -4,5 +4,10 @@
   */
 export function extractDivisionRegx(custom) {
   if (custom === 'BASE') return new RegExp(/,|:/, 'g');
+
+  if (custom.includes('\\')) {
+    custom = custom.replaceAll(/\\/g, '\\\\');
+  }
+
   return new RegExp(custom, 'g');
 }

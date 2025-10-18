@@ -1,3 +1,6 @@
+import { CUSTOM_DIVISION_EMPTY, CUSTOM_DIVISION_NUMBER, ERROR_MESSAGE, NOT_ALLOWED_NAN, NOT_ALLOWED_NEGATIVE, NOT_END_WITH_NUMBER, ONLY_ALLOWED_DECIMAL, ONLY_ENTER_INTEGER } from "./const/messageType";
+
+
 /**
  * 유형 메시지 출력 및 오류 던지는 함수
  * 
@@ -6,33 +9,33 @@
   */
 export async function throwMessage(type, Console) {
   switch (type) {
-    case 'NOT_END_WITH_NUMBER': {
-      await Console.print('[ERROR]');
-      throw Error('[ERROR]');
+    case NOT_END_WITH_NUMBER: {
+      await Console.print(ERROR_MESSAGE);
+      throw Error(ERROR_MESSAGE);
     }
-    case 'NOT_ALLOWED_NEGATIVE': {
-      await Console.print('[ERROR]');
-      throw Error('[ERROR]');
+    case NOT_ALLOWED_NEGATIVE: {
+      await Console.print(ERROR_MESSAGE);
+      throw Error(ERROR_MESSAGE);
     }
-    case 'NOT_ALLOWED_NAN': {
-      await Console.print('[ERROR]');
-      throw Error('[ERROR]');
+    case NOT_ALLOWED_NAN: {
+      await Console.print(ERROR_MESSAGE);
+      throw Error(ERROR_MESSAGE);
     }
-    case 'ONLY_ENTER_INTEGER': {
-      await Console.print('[ERROR]');
-      throw Error('[ERROR]');
+    case ONLY_ENTER_INTEGER: {
+      await Console.print(ERROR_MESSAGE);
+      throw Error(ERROR_MESSAGE);
     }
-    case 'CUSTOM_DIVISION_EMPTY': {
-      await Console.print('[ERROR]');
-      throw Error('[ERROR]');
+    case CUSTOM_DIVISION_EMPTY: {
+      await Console.print(ERROR_MESSAGE);
+      throw Error(ERROR_MESSAGE);
     }
-    case 'CUSTOM_DIVISION_NUMBER': {
-      await Console.print('[ERROR]');
-      throw Error('[ERROR]');
+    case CUSTOM_DIVISION_NUMBER: {
+      await Console.print(ERROR_MESSAGE);
+      throw Error(ERROR_MESSAGE);
     }
-    case 'ONLY_ALLOWED_DECIMAL': {
-      await Console.print('[ERROR]');
-      throw Error('[ERROR]');
+    case ONLY_ALLOWED_DECIMAL: {
+      await Console.print(ERROR_MESSAGE);
+      throw Error(ERROR_MESSAGE);
     }
     default: return;
   }

@@ -1,4 +1,6 @@
 import App from "../src/App.js";
+import { ERROR_MESSAGE } from "../src/util/const/messageType.js";
+
 import { MissionUtils } from "@woowacourse/mission-utils";
 
 const mockQuestions = (inputs) => {
@@ -31,19 +33,19 @@ const correctCase = [
 ]
 
 const exceptedCase = [
-  { inputs: ['0x12,2,2'], output: '[ERROR]' },
-  { inputs: ['0b12,2,2'], output: '[ERROR]' },
-  { inputs: ['0,2!2'], output: '[ERROR]' },
-  { inputs: ['0:1,'], output: '[ERROR]' },
-  { inputs: ['0q1'], output: '[ERROR]' },
-  { inputs: ['1,-1,0'], output: '[ERROR]' },
-  { inputs: ['1,-1,--0'], output: '[ERROR]' },
-  { inputs: ['1,1,*3'], output: '[ERROR]' },
-  { inputs: ['\\n,1'], output: '[ERROR]' },
-  { inputs: ['\\'], output: '[ERROR]' },
-  { inputs: ['//\\n123'], output: '[ERROR]' },
-  { inputs: ['//1\\n11213'], output: '[ERROR]' },
-  { inputs: ['//0x2\\n10x220x23'], output: '[ERROR]' },
+  { inputs: ['0x12,2,2'], output: ERROR_MESSAGE },
+  { inputs: ['0b12,2,2'], output: ERROR_MESSAGE },
+  { inputs: ['0,2!2'], output: ERROR_MESSAGE },
+  { inputs: ['0:1,'], output: ERROR_MESSAGE },
+  { inputs: ['0q1'], output: ERROR_MESSAGE },
+  { inputs: ['1,-1,0'], output: ERROR_MESSAGE },
+  { inputs: ['1,-1,--0'], output: ERROR_MESSAGE },
+  { inputs: ['1,1,*3'], output: ERROR_MESSAGE },
+  { inputs: ['\\n,1'], output: ERROR_MESSAGE },
+  { inputs: ['\\'], output: ERROR_MESSAGE },
+  { inputs: ['//\\n123'], output: ERROR_MESSAGE },
+  { inputs: ['//1\\n11213'], output: ERROR_MESSAGE },
+  { inputs: ['//0x2\\n10x220x23'], output: ERROR_MESSAGE },
 ]
 
 describe("문자열 계산기 통합", () => {
@@ -70,7 +72,7 @@ describe("문자열 계산기 통합", () => {
         const app = new App();
         return await app.calculator()
       }
-      await expect(calculator).rejects.toThrow('[ERROR]');
+      await expect(calculator).rejects.toThrow(ERROR_MESSAGE);
       expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(output));
     })
   })

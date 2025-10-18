@@ -1,6 +1,9 @@
+import { HAVE_BASE_DIVISION } from "../const";
+import { CUSTOM_DIVISION_EMPTY, CUSTOM_DIVISION_NUMBER, PASS } from "../const/messageType";
+
 /**
  * 커스텀 구분자 검증
- * @param {string} division 'q' 'BASE' 
+ * @param {string} division 'q' HAVE_BASE_DIVISION 
  * @return {string} 오류 메시지 유형
  */
 export function validateCustomDivision(division) {
@@ -10,14 +13,14 @@ export function validateCustomDivision(division) {
    * 3. 숫자가 아닌지?
    */
 
-  if (division === 'BASE') return '';
+  if (division === HAVE_BASE_DIVISION) return PASS;
 
-  if (!division) return 'CUSTOM_DIVISION_EMPTY';
+  if (!division) return CUSTOM_DIVISION_EMPTY;
 
-  if (!division.trim()) return '';
+  if (!division.trim()) return PASS;
 
   const isNaN = Number.isNaN(Number(division));
-  if (!isNaN) return 'CUSTOM_DIVISION_NUMBER';
+  if (!isNaN) return CUSTOM_DIVISION_NUMBER;
 
-  return '';
+  return PASS;
 }

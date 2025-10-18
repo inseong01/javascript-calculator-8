@@ -30,6 +30,10 @@ export async function throwMessage(type, Console) {
       await Console.print('[ERROR]');
       throw Error('[ERROR]');
     }
+    case 'ONLY_ALLOWED_DECIMAL': {
+      await Console.print('[ERROR]');
+      throw Error('[ERROR]');
+    }
     default: return;
   }
 }

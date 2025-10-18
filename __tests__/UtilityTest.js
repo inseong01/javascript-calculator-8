@@ -71,8 +71,8 @@ describe("유틸리티", () => {
     })
 
     test('validateNums - 문자 배열 중 숫자 검증', () => {
-      const inputs = [['-1', '0', '3'], ['1', '2', '3'], [',', '2', '3'], ['1.1', '4']];
-      const outputs = ['NOT_ALLOWED_NEGATIVE', '', 'NOT_ALLOWED_NAN', 'ONLY_ENTER_INTEGER'];
+      const inputs = [['-1', '0', '3'], ['1', '2', '3'], [',', '2', '3'], ['1.1', '4'], ['0x12', '0', '2']];
+      const outputs = ['NOT_ALLOWED_NEGATIVE', '', 'NOT_ALLOWED_NAN', 'ONLY_ENTER_INTEGER', 'ONLY_ALLOWED_DECIMAL'];
 
       inputs.forEach((input, i) => {
         const result = validateNums(input);

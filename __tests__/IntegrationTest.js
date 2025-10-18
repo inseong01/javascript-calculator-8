@@ -18,12 +18,13 @@ const getLogSpy = () => {
 
 const correctCase = [
   { inputs: ['1,2,3'], output: '결과 : 6' },
-  { inputs: ['0:1:1'], output: '결과 : 2' }
+  { inputs: ['0:1:1'], output: '결과 : 2' },
+  { inputs: [''], output: '결과 : 0' },
+  { inputs: ['//q\\n1q2q3'], output: '결과 : 6' },
 ]
 
 const exceptedCase = [
-  { inputs: [''], output: '결과 : 0' },
-  { inputs: ['//q\\n1q2q3'], output: '결과 : 6' },
+  { inputs: ['0x12,2,2'], output: '[ERROR]' },
 ]
 
 describe("문자열 계산기 통합", () => {
@@ -43,9 +44,11 @@ describe("문자열 계산기 통합", () => {
 
     const logSpy = getLogSpy();
 
-    const app = new App();
-    await app.calculator();
-
+    async function calculator() {
+      const app = new App();
+      return await app.calculator()
+    }
+    await expect(calculator).rejects.toThrow('[ERROR]');
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(output));
   })
 });

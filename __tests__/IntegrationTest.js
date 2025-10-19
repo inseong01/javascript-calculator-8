@@ -40,6 +40,8 @@ const exceptedCase = [
   { inputs: ['0q1'], output: ERROR_MESSAGE.ONLY_ALLOWED_DECIMAL },
   /* NOT_ALLOWED_NAN */
   { inputs: ['\\'], output: ERROR_MESSAGE.NOT_ALLOWED_NAN },
+  { inputs: ['/'], output: ERROR_MESSAGE.NOT_ALLOWED_NAN },
+  { inputs: ['//'], output: ERROR_MESSAGE.NOT_ALLOWED_NAN },
   { inputs: ['0,2!2'], output: ERROR_MESSAGE.NOT_ALLOWED_NAN },
   { inputs: ['1,1,*3'], output: ERROR_MESSAGE.NOT_ALLOWED_NAN },
   /* NOT_ALLOWED_NEGATIVE */

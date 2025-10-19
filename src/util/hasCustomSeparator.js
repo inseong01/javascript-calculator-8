@@ -7,7 +7,8 @@ import { CUSTOM_END_SEPARATOR, CUSTOM_START_SEPARATOR, DEFAULT_SEPARATOR } from 
  * @returns 커스텀 문자 또는 기본 구분자 판별 문자
  */
 export function hasCustomSeparator(respond) {
-  if (!respond.startsWith(CUSTOM_START_SEPARATOR)) return DEFAULT_SEPARATOR;
+  const hasCustomSetting = respond.startsWith(CUSTOM_START_SEPARATOR) && respond.includes(CUSTOM_END_SEPARATOR);
+  if (!hasCustomSetting) return DEFAULT_SEPARATOR;
 
   const lastCustomIdx = respond.indexOf(CUSTOM_END_SEPARATOR);
 

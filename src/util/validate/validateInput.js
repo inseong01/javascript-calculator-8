@@ -1,4 +1,4 @@
-import { NOT_END_WITH_NUMBER, PASS } from "../const/messageType";
+import { NOT_END_WITH_SEPARATOR, PASS } from "../const/messageType.js";
 
 /**
  * 사용자 입력 검증 
@@ -15,7 +15,7 @@ export function validateInput(input) {
 
   if (!input) return PASS;
 
-  if (input.endsWith(',') || input.endsWith(':')) return NOT_END_WITH_NUMBER;
+  if (input.endsWith(',') || input.endsWith(':')) return NOT_END_WITH_SEPARATOR;
 
   return PASS;
 }

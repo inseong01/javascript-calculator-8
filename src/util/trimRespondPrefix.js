@@ -1,4 +1,4 @@
-import { DEFAULT_SEPARATOR } from "./const";
+import { DEFAULT_SEPARATOR } from "./const/index.js";
 
 /**
  * 숫자 추출을 위한 온전한 숫자 문자열 반환 함수

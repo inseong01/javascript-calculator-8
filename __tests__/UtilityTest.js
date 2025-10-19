@@ -1,5 +1,5 @@
 import { DEFAULT_SEPARATOR } from "../src/util/const";
-import { CUSTOM_SEPARATOR_EMPTY, CUSTOM_SEPARATOR_NUMBER, ERROR_MESSAGE, NOT_ALLOWED_NAN, NOT_ALLOWED_NEGATIVE, NOT_END_WITH_NUMBER, ONLY_ALLOWED_DECIMAL, ONLY_ENTER_INTEGER } from "../src/util/const/messageType";
+import { CUSTOM_SEPARATOR_EMPTY, CUSTOM_SEPARATOR_NOT_ALLOWED_NUMBER, ERROR_MESSAGE, NOT_ALLOWED_NAN, NOT_ALLOWED_NEGATIVE, NOT_END_WITH_SEPARATOR, ONLY_ALLOWED_DECIMAL, ONLY_ENTER_INTEGER } from "../src/util/const/messageType";
 
 import { extractSeparatorRegx } from "../src/util/extractSeparatorRegx";
 import { hasCustomSeparator } from "../src/util/hasCustomSeparator";
@@ -36,8 +36,8 @@ describe("유틸리티", () => {
 
   describe('throwMessage - 메시지 출력 및 오류 던짐', () => {
     test('문자 오류 반환', async () => {
-      const inputs = [NOT_END_WITH_NUMBER];
-      const output = ERROR_MESSAGE;
+      const inputs = [NOT_END_WITH_SEPARATOR];
+      const output = ERROR_MESSAGE.NOT_END_WITH_SEPARATOR;
 
       inputs.forEach(async (input) => {
         async function throwMessageFn() {
@@ -49,15 +49,15 @@ describe("유틸리티", () => {
     })
 
     test('숫자 오류 반환', async () => {
-      const inputs = [NOT_END_WITH_NUMBER, NOT_ALLOWED_NEGATIVE, NOT_ALLOWED_NAN, ONLY_ENTER_INTEGER];
-      const output = ERROR_MESSAGE;
+      const inputs = [NOT_END_WITH_SEPARATOR, NOT_ALLOWED_NEGATIVE, NOT_ALLOWED_NAN, ONLY_ENTER_INTEGER];
+      const outputs = [ERROR_MESSAGE.NOT_END_WITH_SEPARATOR, ERROR_MESSAGE.NOT_ALLOWED_NEGATIVE, ERROR_MESSAGE.NOT_ALLOWED_NAN, ERROR_MESSAGE.ONLY_ENTER_INTEGER];
 
-      inputs.forEach(async (input) => {
+      inputs.forEach(async (input, i) => {
         async function throwMessageFn() {
           return await throwMessage(input, Console);
         }
-        await expect(throwMessageFn).rejects.toThrow(new Error(output));
-        expect(Console.print).toHaveBeenCalledWith(output);
+        await expect(throwMessageFn).rejects.toThrow(new Error(outputs[i]));
+        expect(Console.print).toHaveBeenCalledWith(outputs[i]);
       })
     })
   })
@@ -65,7 +65,7 @@ describe("유틸리티", () => {
   describe('validate - 오류 메시지 반환', () => {
     test('validateInput - 문자열 검증', () => {
       const inputs = ['1,2,', '1:'];
-      const outputs = [NOT_END_WITH_NUMBER, NOT_END_WITH_NUMBER];
+      const outputs = [NOT_END_WITH_SEPARATOR, NOT_END_WITH_SEPARATOR];
 
       inputs.forEach(async (input, i) => {
         const result = validateInput(input);
@@ -85,7 +85,7 @@ describe("유틸리티", () => {
 
     test('validateCustomSeparator - 커스텀 구분자 검증', () => {
       const inputs = ['c', '', '123', ' '];
-      const outputs = ['', CUSTOM_SEPARATOR_EMPTY, CUSTOM_SEPARATOR_NUMBER, ''];
+      const outputs = ['', CUSTOM_SEPARATOR_EMPTY, CUSTOM_SEPARATOR_NOT_ALLOWED_NUMBER, ''];
 
       inputs.forEach((input, i) => {
         const result = validateCustomSeparator(input);

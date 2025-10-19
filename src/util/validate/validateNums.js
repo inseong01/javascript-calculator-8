@@ -1,4 +1,4 @@
-import { NOT_ALLOWED_NAN, NOT_ALLOWED_NEGATIVE, ONLY_ALLOWED_DECIMAL, ONLY_ENTER_INTEGER, PASS } from "../const/messageType";
+import { NOT_ALLOWED_NAN, NOT_ALLOWED_NEGATIVE, ONLY_ALLOWED_DECIMAL, ONLY_ENTER_INTEGER, PASS } from "../const/messageType.js";
 
 /**
  * 문자 유형 숫자 배열 검증

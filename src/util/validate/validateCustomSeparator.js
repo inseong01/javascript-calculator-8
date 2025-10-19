@@ -1,5 +1,5 @@
-import { DEFAULT_SEPARATOR } from "../const";
-import { CUSTOM_SEPARATOR_EMPTY, CUSTOM_SEPARATOR_NUMBER, PASS } from "../const/messageType";
+import { DEFAULT_SEPARATOR } from "../const/index.js";
+import { CUSTOM_SEPARATOR_EMPTY, CUSTOM_SEPARATOR_NOT_ALLOWED_NUMBER, PASS } from "../const/messageType.js";
 
 /**
  * 커스텀 구분자 검증
@@ -20,7 +20,7 @@ export function validateCustomSeparator(separator) {
   if (!separator.trim()) return PASS;
 
   const isNaN = Number.isNaN(Number(separator));
-  if (!isNaN) return CUSTOM_SEPARATOR_NUMBER;
+  if (!isNaN) return CUSTOM_SEPARATOR_NOT_ALLOWED_NUMBER;
 
   return PASS;
 }

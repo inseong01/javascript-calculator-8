@@ -1,4 +1,4 @@
-import { CUSTOM_END_SEPARATOR, CUSTOM_START_SEPARATOR, DEFAULT_SEPARATOR } from "./const";
+import { CUSTOM_END_SEPARATOR, CUSTOM_START_SEPARATOR, DEFAULT_SEPARATOR } from "./const/index.js";
 
 /**
  * 커스텀 문자 여부 판단 및 반환 함수

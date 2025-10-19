@@ -33,19 +33,25 @@ const correctCase = [
 ]
 
 const exceptedCase = [
-  { inputs: ['0x12,2,2'], output: ERROR_MESSAGE },
-  { inputs: ['0b12,2,2'], output: ERROR_MESSAGE },
-  { inputs: ['0,2!2'], output: ERROR_MESSAGE },
-  { inputs: ['0:1,'], output: ERROR_MESSAGE },
-  { inputs: ['0q1'], output: ERROR_MESSAGE },
-  { inputs: ['1,-1,0'], output: ERROR_MESSAGE },
-  { inputs: ['1,-1,--0'], output: ERROR_MESSAGE },
-  { inputs: ['1,1,*3'], output: ERROR_MESSAGE },
-  { inputs: ['\\n,1'], output: ERROR_MESSAGE },
-  { inputs: ['\\'], output: ERROR_MESSAGE },
-  { inputs: ['//\\n123'], output: ERROR_MESSAGE },
-  { inputs: ['//1\\n11213'], output: ERROR_MESSAGE },
-  { inputs: ['//0x2\\n10x220x23'], output: ERROR_MESSAGE },
+  /* ONLY_ALLOWED_DECIMAL */
+  { inputs: ['0x12,2,2'], output: ERROR_MESSAGE.ONLY_ALLOWED_DECIMAL },
+  { inputs: ['0b12,2,2'], output: ERROR_MESSAGE.ONLY_ALLOWED_DECIMAL },
+  { inputs: ['\\n,1'], output: ERROR_MESSAGE.ONLY_ALLOWED_DECIMAL },
+  { inputs: ['0q1'], output: ERROR_MESSAGE.ONLY_ALLOWED_DECIMAL },
+  /* NOT_ALLOWED_NAN */
+  { inputs: ['\\'], output: ERROR_MESSAGE.NOT_ALLOWED_NAN },
+  { inputs: ['0,2!2'], output: ERROR_MESSAGE.NOT_ALLOWED_NAN },
+  { inputs: ['1,1,*3'], output: ERROR_MESSAGE.NOT_ALLOWED_NAN },
+  /* NOT_ALLOWED_NEGATIVE */
+  { inputs: ['1,-1,0'], output: ERROR_MESSAGE.NOT_ALLOWED_NEGATIVE },
+  { inputs: ['1,-1,--0'], output: ERROR_MESSAGE.NOT_ALLOWED_NEGATIVE },
+  /* NOT_END_WITH_SEPARATOR */
+  { inputs: ['0:1,'], output: ERROR_MESSAGE.NOT_END_WITH_SEPARATOR },
+  /* CUSTOM_SEPARATOR_EMPTY */
+  { inputs: ['//\\n123'], output: ERROR_MESSAGE.CUSTOM_SEPARATOR_EMPTY },
+  /* CUSTOM_SEPARATOR_NOT_ALLOWED_NUMBER */
+  { inputs: ['//1\\n11213'], output: ERROR_MESSAGE.CUSTOM_SEPARATOR_NOT_ALLOWED_NUMBER },
+  { inputs: ['//0x2\\n10x220x23'], output: ERROR_MESSAGE.CUSTOM_SEPARATOR_NOT_ALLOWED_NUMBER },
 ]
 
 describe("문자열 계산기 통합", () => {
@@ -72,7 +78,7 @@ describe("문자열 계산기 통합", () => {
         const app = new App();
         return await app.calculator()
       }
-      await expect(calculator).rejects.toThrow(ERROR_MESSAGE);
+      await expect(calculator).rejects.toThrow(output);
       expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(output));
     })
   })

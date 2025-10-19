@@ -7,6 +7,7 @@ import { validateInput } from "./util/validate/validateInput.js";
 import { validateCustomDivision } from "./util/validate/validateCustomDivision.js";
 import { extractDivisionRegx } from "./util/extractDivisionRegx.js";
 import { trimRespondPrefix } from "./util/trimRespondPrefix.js";
+import { PROMPT_START_MESSAGE } from "./util/const/index.js";
 
 class App {
   async run() {
@@ -76,7 +77,7 @@ class App {
    * @returns {Promise<string>} "1,2:3" "//q\n1q2"
    */
   async readLine() {
-    const respond = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n') ?? '';
+    const respond = await Console.readLineAsync(PROMPT_START_MESSAGE) ?? '';
 
     const hasMessage = validateInput(respond);
     await throwMessage(hasMessage, Console);

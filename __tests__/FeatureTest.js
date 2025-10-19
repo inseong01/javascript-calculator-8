@@ -1,4 +1,6 @@
 import App from "../src/App.js";
+import { PROMPT_START_MESSAGE } from "../src/util/const/index.js";
+
 import { MissionUtils } from "@woowacourse/mission-utils";
 
 const mockQuestions = (inputs) => {
@@ -29,12 +31,11 @@ describe("문자열 계산기 기능", () => {
     mockQuestions(inputs);
 
     const lineSpy = getLineAsyncSpy();
-    const props = "덧셈할 문자열을 입력해 주세요.\n";
 
     const app = new App();
     await app.readLine()
 
-    expect(lineSpy).toHaveBeenCalledWith(props)
+    expect(lineSpy).toHaveBeenCalledWith(PROMPT_START_MESSAGE)
   })
 
   test('결과 출력, 입력한 문자열 출력', async () => {

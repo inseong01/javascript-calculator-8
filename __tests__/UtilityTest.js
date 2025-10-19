@@ -1,24 +1,24 @@
-import { HAVE_BASE_DIVISION } from "../src/util/const";
-import { CUSTOM_DIVISION_EMPTY, CUSTOM_DIVISION_NUMBER, ERROR_MESSAGE, NOT_ALLOWED_NAN, NOT_ALLOWED_NEGATIVE, NOT_END_WITH_NUMBER, ONLY_ALLOWED_DECIMAL, ONLY_ENTER_INTEGER } from "../src/util/const/messageType";
+import { DEFAULT_SEPARATOR } from "../src/util/const";
+import { CUSTOM_SEPARATOR_EMPTY, CUSTOM_SEPARATOR_NUMBER, ERROR_MESSAGE, NOT_ALLOWED_NAN, NOT_ALLOWED_NEGATIVE, NOT_END_WITH_NUMBER, ONLY_ALLOWED_DECIMAL, ONLY_ENTER_INTEGER } from "../src/util/const/messageType";
 
-import { extractDivisionRegx } from "../src/util/extractDivisionRegx";
-import { hasCustomDivision } from "../src/util/hasCustomDivision";
+import { extractSeparatorRegx } from "../src/util/extractSeparatorRegx";
+import { hasCustomSeparator } from "../src/util/hasCustomSeparator";
 import { throwMessage } from "../src/util/throwMessage";
 import { trimRespondPrefix } from "../src/util/trimRespondPrefix";
-import { validateCustomDivision } from "../src/util/validate/validateCustomDivision";
+import { validateCustomSeparator } from "../src/util/validate/validateCustomSeparator";
 import { validateInput } from "../src/util/validate/validateInput";
 import { validateNums } from "../src/util/validate/validateNums";
 
 const Console = { print: jest.fn() };
 
 describe("유틸리티", () => {
-  describe('hasCustomDivision - 커스텀 문자 반환', () => {
+  describe('hasCustomSeparator - 커스텀 문자 반환', () => {
     test('기본 구분자인 경우', async () => {
       const inputs = ['1:2:3', '1,2,3']
-      const outputs = [HAVE_BASE_DIVISION, HAVE_BASE_DIVISION]
+      const outputs = [DEFAULT_SEPARATOR, DEFAULT_SEPARATOR]
 
       inputs.forEach((input, i) => {
-        const result = hasCustomDivision(input);
+        const result = hasCustomSeparator(input);
         expect(result).toBe(outputs[i]);
       })
     })
@@ -28,7 +28,7 @@ describe("유틸리티", () => {
       const outputs = ['!', ';']
 
       inputs.forEach((input, i) => {
-        const result = hasCustomDivision(input);
+        const result = hasCustomSeparator(input);
         expect(result).toBe(outputs[i]);
       })
     })
@@ -83,24 +83,24 @@ describe("유틸리티", () => {
       })
     })
 
-    test('validateCustomDivision - 커스텀 구분자 검증', () => {
+    test('validateCustomSeparator - 커스텀 구분자 검증', () => {
       const inputs = ['c', '', '123', ' '];
-      const outputs = ['', CUSTOM_DIVISION_EMPTY, CUSTOM_DIVISION_NUMBER, ''];
+      const outputs = ['', CUSTOM_SEPARATOR_EMPTY, CUSTOM_SEPARATOR_NUMBER, ''];
 
       inputs.forEach((input, i) => {
-        const result = validateCustomDivision(input);
+        const result = validateCustomSeparator(input);
         expect(result).toBe(outputs[i])
       })
     })
   })
 
-  describe('extractDivisionRegx - 구분자 구별 정규식 반환', () => {
+  describe('extractSeparatorRegx - 구분자 구별 정규식 반환', () => {
     test('기본 구분자인 경우', () => {
-      const inputs = [HAVE_BASE_DIVISION]
+      const inputs = [DEFAULT_SEPARATOR]
       const output = new RegExp(/,|:/, 'g');
 
       inputs.forEach((input) => {
-        expect(extractDivisionRegx(input)).toEqual(output)
+        expect(extractSeparatorRegx(input)).toEqual(output)
       })
     })
 
@@ -113,14 +113,14 @@ describe("유틸리티", () => {
       const outputs = [setRegExp(''), setRegExp('a'), setRegExp('\\\\'), setRegExp('\\\\\\\\')];
 
       inputs.forEach((input, i) => {
-        expect(extractDivisionRegx(input)).toEqual(outputs[i])
+        expect(extractSeparatorRegx(input)).toEqual(outputs[i])
       })
     })
   })
 
   describe('trimRespondPrefix - 온전한 숫자 문자열 반환', () => {
     test('기본 구분자인 경우', () => {
-      const inputs = [{ respond: '1,2:3', custom: HAVE_BASE_DIVISION }, { respond: '3:2', custom: HAVE_BASE_DIVISION }]
+      const inputs = [{ respond: '1,2:3', custom: DEFAULT_SEPARATOR }, { respond: '3:2', custom: DEFAULT_SEPARATOR }]
       const outputs = ['1,2:3', '3:2'];
 
       inputs.forEach((input, i) => {

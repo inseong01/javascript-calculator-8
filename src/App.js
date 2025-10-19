@@ -1,12 +1,13 @@
 import { Console } from "@woowacourse/mission-utils";
 
-import { hasCustomDivision } from "./util/hasCustomDivision.js";
+import { hasCustomSeparator } from "./util/hasCustomSeparator.js";
 import { throwMessage } from "./util/throwMessage.js";
 import { validateNums } from "./util/validate/validateNums.js";
 import { validateInput } from "./util/validate/validateInput.js";
-import { validateCustomDivision } from "./util/validate/validateCustomDivision.js";
-import { extractDivisionRegx } from "./util/extractDivisionRegx.js";
+import { validateCustomSeparator } from "./util/validate/validateCustomSeparator.js";
+import { extractSeparatorRegx } from "./util/extractSeparatorRegx.js";
 import { trimRespondPrefix } from "./util/trimRespondPrefix.js";
+
 import { PROMPT_START_MESSAGE } from "./util/const/index.js";
 
 class App {
@@ -38,17 +39,15 @@ class App {
    * @returns {Promise<string[]>} ['1', '1', '1']
    */
   async extractNums(respond) {
-    const hasCustom = hasCustomDivision(respond);
+    const separator = hasCustomSeparator(respond);
 
-    const hasMessage = validateCustomDivision(hasCustom);
+    const hasMessage = validateCustomSeparator(separator);
     await throwMessage(hasMessage, Console);
 
-    const divisionRegx = extractDivisionRegx(hasCustom);
-    const trimedRespond = trimRespondPrefix(respond, hasCustom);
+    const separatorRegx = extractSeparatorRegx(separator);
+    const trimedRespond = trimRespondPrefix(respond, separator);
 
-    const csvFormatted = trimedRespond.replaceAll(divisionRegx, ',');
-    const numbers = csvFormatted.split(',');
-
+    const numbers = trimedRespond.split(separatorRegx);
     return numbers;
   }
 

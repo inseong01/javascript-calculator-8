@@ -1,4 +1,4 @@
-import { CUSTOM_DIVISION_EMPTY, CUSTOM_DIVISION_NUMBER, ERROR_MESSAGE, NOT_ALLOWED_NAN, NOT_ALLOWED_NEGATIVE, NOT_END_WITH_NUMBER, ONLY_ALLOWED_DECIMAL, ONLY_ENTER_INTEGER } from "./const/messageType";
+import { CUSTOM_SEPARATOR_EMPTY, CUSTOM_SEPARATOR_NUMBER, ERROR_MESSAGE, NOT_ALLOWED_NAN, NOT_ALLOWED_NEGATIVE, NOT_END_WITH_NUMBER, ONLY_ALLOWED_DECIMAL, ONLY_ENTER_INTEGER } from "./const/messageType";
 
 
 /**
@@ -25,11 +25,11 @@ export async function throwMessage(type, Console) {
       await Console.print(ERROR_MESSAGE);
       throw Error(ERROR_MESSAGE);
     }
-    case CUSTOM_DIVISION_EMPTY: {
+    case CUSTOM_SEPARATOR_EMPTY: {
       await Console.print(ERROR_MESSAGE);
       throw Error(ERROR_MESSAGE);
     }
-    case CUSTOM_DIVISION_NUMBER: {
+    case CUSTOM_SEPARATOR_NUMBER: {
       await Console.print(ERROR_MESSAGE);
       throw Error(ERROR_MESSAGE);
     }

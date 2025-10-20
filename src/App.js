@@ -14,7 +14,6 @@ class App {
   async run() {
     try {
       await this.calculator();
-      // await this.run();
     } catch (err) {
       throw Error(err);
     }
